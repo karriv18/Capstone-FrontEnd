@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "app/Authentication/Login.jsx", "app/_layout.jsx", "app/Authentication/SignUp.tsx", "app/index.jsx", "components/UserInputs/TextInput.jsx"  ]
 }
