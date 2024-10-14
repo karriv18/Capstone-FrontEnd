@@ -68,7 +68,23 @@ export const StyledButton = ({ onPress, children }) => (
 export const ButtonText = ({ children }) => (
     <Text style={styles.buttonText}>{children}</Text>
 );
-
+export const MsgBox = ({ children }) => (
+    <Text style={styles.msgBox}>{children}</Text>
+);
+export const ExtraView = ({ children }) => (
+    <View style={styles.extraView}>{children}</View>
+);
+export const ExtraText = ({ children }) => (
+    <Text style={styles.extraText}>{children}</Text>
+);
+export const TextLink = ({ onPress, children }) => (
+    <TouchableOpacity style={styles.textLink} onPress={onPress} >
+        {children}
+    </TouchableOpacity>
+);
+export const TextLinkContent = ({ children }) => (
+    <Text style={styles.textLinkContent}>{children}</Text>
+);
 // Styles
 const styles = StyleSheet.create({
     container: {
@@ -114,6 +130,7 @@ const styles = StyleSheet.create({
         marginVertical: 3,
         marginBottom: 10,
         color: tertiary,
+        borderRadius: 50,
     },
     inputLabel: {
         color: tertiary,
@@ -136,13 +153,38 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: Colors.brand,
         justifyContent: 'center',
-        borderRadius: 5,
+        alignItems: 'center',
+        borderRadius: 50,
         marginVertical: 5,
         height: 60,
+
     },
     buttonText: {
         color: primary,
         fontSize: 16,
     },
-    
+    msgBox: {
+        textAlign: 'center',
+        fontSize: 13,
+    },
+    extraView: {
+        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+    },
+    extraText: {
+        justifyContent: 'center',
+        alignContent: 'center',
+        color: Colors.tertiary,
+        fontSize: 15,
+    },
+    textLink: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textLinkContent: {
+        color: Colors.brand,
+        fontSize: 15,
+    }
 });

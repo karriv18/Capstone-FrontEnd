@@ -13,11 +13,11 @@ export default function TextInput({ label, icon, isPassword, hidePassword, setHi
       </LeftIcon>
       <StyledInputLabel>{label}</StyledInputLabel>
       <StyledTextInput {...props} />
-      {isPassword && (
+      {/* {isPassword && (
           <RightIcon onPress={() => setHidePassword(!hidePassword)} style={{ position: 'absolute', right: 15, top: 15 }}>
             <Ionicons name={hidePassword ? 'eye-off' : 'eye'} size={30} color={darkLight} />
           </RightIcon>
-        )}
+        )} */}
     </View>
   )
 }
