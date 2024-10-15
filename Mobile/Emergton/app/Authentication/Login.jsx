@@ -10,15 +10,15 @@ import {
     StyledFormArea,
     StyledButton,
     ButtonText,
-    ExtraView, 
+    ExtraView,
     ExtraText,
-    TextLink, 
-    TextLinkContent 
+    TextLink,
+    TextLinkContent
 } from '../../components/styles';
 import TextInput from '@/components/UserInputs/TextInput';
 
 const Login = () => {
-    const [hidePassword, setHidePassword]= useState(true);
+    const [hidePassword, setHidePassword] = useState(true);
     return (
         <StyledContainer>
             <StatusBar style="dark" />
@@ -37,16 +37,16 @@ const Login = () => {
                         <StyledFormArea>
                             <TextInput
                                 label="Email Address"
-                                icon="mail"
+                                icon="email"
                                 placeholder="john@example.com"
                                 onChangeText={handleChange('email')}
                                 onBlur={handleBlur('email')}
                                 value={values.email}
                                 keyboardType="email-address"
-                                />
+                            />
                             <TextInput
                                 label="Password"
-                                icon="lock"
+                                icon="lock-person"
                                 placeholder="********"
                                 onChangeText={handleChange('password')}
                                 onBlur={handleBlur('password')}
@@ -63,9 +63,9 @@ const Login = () => {
                             </StyledButton>
                             <ExtraView>
                                 <ExtraText>Don't have an account? </ExtraText>
-                                <TextLink>
+                                <TextLinkContent>
                                     Signup
-                                </TextLink>
+                                </TextLinkContent>
                             </ExtraView>
                         </StyledFormArea>
                     )}

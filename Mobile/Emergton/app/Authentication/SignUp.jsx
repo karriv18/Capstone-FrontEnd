@@ -23,12 +23,11 @@ const Signup = () => {
         <StyledContainer>
             <StatusBar style="dark" />
             <InnerContainer>
-                <PageLogo source={require('../../assets/images/logo/EmergtonAuth.png')} />
-                <PageTitle>EMERGTON</PageTitle>
-                <SubTitle>EMERGENCY APP</SubTitle>
+                <PageTitle>SIGN UP </PageTitle>
+                <SubTitle>Create an Account</SubTitle>
 
                 <Formik
-                    initialValues={{ fullname: '', email: '', password: '' }}
+                    initialValues={{ fullname: '', email: '', password: '', address: '', landmark: '' }}
                     onSubmit={(values) => {
                         console.log(values)
                     }}
@@ -37,7 +36,7 @@ const Signup = () => {
                         <StyledFormArea>
                             <TextInput
                                 label="Email Address"
-                                icon="mail"
+                                icon="email"
                                 placeholder="john@example.com"
                                 onChangeText={handleChange('email')}
                                 onBlur={handleBlur('email')}
@@ -46,7 +45,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 label="Full Name"
-                                icon="name"
+                                icon="drive-file-rename-outline"
                                 placeholder="Full Name"
                                 onChangeText={handleChange('fullname')}
                                 onBlur={handleBlur('fullname')}
@@ -55,7 +54,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 label="Password"
-                                icon="lock"
+                                icon="lock-person"
                                 placeholder="********"
                                 onChangeText={handleChange('password')}
                                 onBlur={handleBlur('password')}
@@ -65,16 +64,32 @@ const Signup = () => {
                                 setHidePassword={setHidePassword}
                                 secureTextEntry={hidePassword}
                             />
+                            <TextInput
+                                label="Landmark"
+                                icon="landscape"
+                                placeholder="Landmark"
+                                onChangeText={handleChange('landmark')}
+                                onBlur={handleBlur('fullname')}
+                                value={values.landmark}
+                            />
+                            <TextInput
+                                label="Address"
+                                icon="place"
+                                placeholder="Address"
+                                onChangeText={handleChange('address')}
+                                onBlur={handleBlur('address')}
+                                value={values.address}
+                            />
                             <StyledButton onPress={handleSubmit}>
                                 <ButtonText>
-                                    Login
+                                    Sign Up
                                 </ButtonText>
                             </StyledButton>
                             <ExtraView>
-                                <ExtraText>Don't have an account? </ExtraText>
-                                <TextLink>
-                                    Signup
-                                </TextLink>
+                                <ExtraText>Already have an Account? </ExtraText>
+                                <TextLinkContent>
+                                    Login
+                                </TextLinkContent>
                             </ExtraView>
                         </StyledFormArea>
                     )}

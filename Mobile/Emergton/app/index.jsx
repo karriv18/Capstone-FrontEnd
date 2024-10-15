@@ -6,6 +6,7 @@ import SignUp from './Authentication/SignUp';
 export default function Index() {
 
   return (
-    <SignUp />
+    //<Login/>
+     <SignUp />
   );
 }

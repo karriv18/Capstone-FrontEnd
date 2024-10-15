@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
 const StatusBarWeight = Constants.statusBarHeight;
@@ -20,11 +20,11 @@ export const Colors = {
 const { primary, secondary, tertiary, dark, transparent } = Colors;
 
 export const StyledContainer = (props) => (
-    <View style={styles.container}>{props.children}</View>
+    <SafeAreaView style={styles.container}>{props.children}</SafeAreaView>
 );
 
 export const InnerContainer = (props) => (
-    <View style={styles.innerContainer}>{props.children}</View>
+    <SafeAreaView style={styles.innerContainer}>{props.children}</SafeAreaView>
 );
 
 export const PageLogo = (props) => (
@@ -40,7 +40,7 @@ export const SubTitle = ({ children }) => (
 );
 
 export const StyledFormArea = (props) => (
-    <View style={styles.formArea}>{props.children}</View>
+    <SafeAreaView style={styles.formArea}>{props.children}</SafeAreaView>
 );
 
 export const StyledTextInput = (props) => (
@@ -72,7 +72,7 @@ export const MsgBox = ({ children }) => (
     <Text style={styles.msgBox}>{children}</Text>
 );
 export const ExtraView = ({ children }) => (
-    <View style={styles.extraView}>{children}</View>
+    <SafeAreaView style={styles.extraView}>{children}</SafeAreaView>
 );
 export const ExtraText = ({ children }) => (
     <Text style={styles.extraText}>{children}</Text>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         paddingRight: 55,
         borderRadius: 5,
         fontSize: 16,
-        height: 60,
+        height: 50,
         marginVertical: 3,
         marginBottom: 10,
         color: tertiary,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     },
     leftIcon: {
         left: 15,
-        top: 38,
+        top: 33,
         position: 'absolute',
         zIndex: 1,
     },
@@ -150,13 +150,13 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     button: {
-        padding: 15,
-        backgroundColor: Colors.brand,
+        padding: 10,
+        backgroundColor: 'rgb(55, 133, 205)',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 50,
         marginVertical: 5,
-        height: 60,
+        height: 50,
 
     },
     buttonText: {
