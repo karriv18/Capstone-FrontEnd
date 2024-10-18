@@ -16,8 +16,8 @@ export default function TextInput({ label, icon, isPassword, hidePassword, setHi
       <StyledInputLabel>{label}</StyledInputLabel>
       <StyledTextInput {...props} />
       {isPassword && (
-        <RightIcon onPress={() => setHidePassword(!hidePassword)} style={{ position: 'absolute', right: 15, top: 15 }}>
-          <Ionicons name={hidePassword ? 'eye-off' : 'eye'} size={30} color={darkLight} />
+        <RightIcon onPress={() => setHidePassword(!hidePassword)} >
+          <Ionicons name={hidePassword ? 'eye-off' : 'eye'} size={25} color={darkLight} />
         </RightIcon>
       )}
     </SafeAreaView>

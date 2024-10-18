@@ -1,7 +1,8 @@
 import React from 'react';
 import { SafeAreaView, View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const StatusBarWeight = Constants.statusBarHeight;
 
 // colors
@@ -28,7 +29,7 @@ export const InnerContainer = (props) => (
 );
 
 export const PageLogo = (props) => (
-    <Image style={styles.logo} source={props.source} resizeMode="cover" />
+    <Icon size={100} style={{  borderRadius: wp('100%'), borderWidth: 4, padding: 20, color: 'black' }} name={props.name} />
 );
 
 export const PageTitle = ({ children }) => (
@@ -99,8 +100,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     logo: {
-        width: 200,
-        height: 200,
+        width: wp('20%'),
+        height: hp('20%'),
     },
     pageTitle: {
         fontSize: 30,
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     },
     rightIcon: {
         right: 15,
-        top: 38,
+        top: 33,
         position: 'absolute',
         zIndex: 1,
     },

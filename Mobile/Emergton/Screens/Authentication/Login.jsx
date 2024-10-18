@@ -17,17 +17,18 @@ import {
 } from '../../components/styles';
 import TextInput from '@/components/UserInputs/TextInput';
 
-const Signup = () => {
+const Login = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     return (
         <StyledContainer>
             <StatusBar style="dark" />
             <InnerContainer>
-                <PageTitle>SIGN UP </PageTitle>
-                <SubTitle>Create an Account</SubTitle>
+                <PageLogo name="phone-in-talk" />
+                <PageTitle>EMERGTON</PageTitle>
+                <SubTitle>EMERGENCY APP</SubTitle>
 
                 <Formik
-                    initialValues={{ fullname: '', email: '', password: '', address: '', landmark: '' }}
+                    initialValues={{ email: '', password: '' }}
                     onSubmit={(values) => {
                         console.log(values)
                     }}
@@ -44,15 +45,6 @@ const Signup = () => {
                                 keyboardType="email-address"
                             />
                             <TextInput
-                                label="Full Name"
-                                icon="drive-file-rename-outline"
-                                placeholder="Full Name"
-                                onChangeText={handleChange('fullname')}
-                                onBlur={handleBlur('fullname')}
-                                value={values.fullname}
-                                keyboardType="email-address"
-                            />
-                            <TextInput
                                 label="Password"
                                 icon="lock-person"
                                 placeholder="********"
@@ -64,32 +56,18 @@ const Signup = () => {
                                 setHidePassword={setHidePassword}
                                 secureTextEntry={hidePassword}
                             />
-                            <TextInput
-                                label="Landmark"
-                                icon="landscape"
-                                placeholder="Landmark"
-                                onChangeText={handleChange('landmark')}
-                                onBlur={handleBlur('fullname')}
-                                value={values.landmark}
-                            />
-                            <TextInput
-                                label="Address"
-                                icon="place"
-                                placeholder="Address"
-                                onChangeText={handleChange('address')}
-                                onBlur={handleBlur('address')}
-                                value={values.address}
-                            />
                             <StyledButton onPress={handleSubmit}>
                                 <ButtonText>
-                                    Sign Up
+                                    Login
                                 </ButtonText>
                             </StyledButton>
                             <ExtraView>
-                                <ExtraText>Already have an Account? </ExtraText>
-                                <TextLinkContent>
-                                    Login
-                                </TextLinkContent>
+                                <ExtraText>Don't have an account? </ExtraText>
+                                <TextLink onPress={() => navigation.push('SignUp')}>
+                                    <TextLinkContent>
+                                        Signup
+                                    </TextLinkContent>
+                                </TextLink>
                             </ExtraView>
                         </StyledFormArea>
                     )}
@@ -100,4 +78,4 @@ const Signup = () => {
 }
 
 
-export default Signup;
+export default Login;

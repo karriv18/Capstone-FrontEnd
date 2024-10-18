@@ -1,12 +1,9 @@
 
 import React from "react";
-// screens 
-import Login from "./Authentication/Login";
-import SignUp from './Authentication/SignUp'; 
+import _layout from './_layout'
 export default function Index() {
 
   return (
-    //<Login/>
-     <SignUp />
+    <_layout />
   );
 }

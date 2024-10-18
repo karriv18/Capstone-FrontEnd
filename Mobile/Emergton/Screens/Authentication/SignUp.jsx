@@ -17,18 +17,17 @@ import {
 } from '../../components/styles';
 import TextInput from '@/components/UserInputs/TextInput';
 
-const Login = () => {
+const Signup = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     return (
         <StyledContainer>
             <StatusBar style="dark" />
             <InnerContainer>
-                <PageLogo source={require('../../assets/images/logo/EmergtonAuth.png')} />
-                <PageTitle>EMERGTON</PageTitle>
-                <SubTitle>EMERGENCY APP</SubTitle>
+                <PageTitle>SIGN UP </PageTitle>
+                <SubTitle>Create an Account</SubTitle>
 
                 <Formik
-                    initialValues={{ email: '', password: '' }}
+                    initialValues={{ fullname: '', email: '', password: '', address: '', landmark: '' }}
                     onSubmit={(values) => {
                         console.log(values)
                     }}
@@ -45,6 +44,15 @@ const Login = () => {
                                 keyboardType="email-address"
                             />
                             <TextInput
+                                label="Full Name"
+                                icon="drive-file-rename-outline"
+                                placeholder="Full Name"
+                                onChangeText={handleChange('fullname')}
+                                onBlur={handleBlur('fullname')}
+                                value={values.fullname}
+                                keyboardType="email-address"
+                            />
+                            <TextInput
                                 label="Password"
                                 icon="lock-person"
                                 placeholder="********"
@@ -56,16 +64,35 @@ const Login = () => {
                                 setHidePassword={setHidePassword}
                                 secureTextEntry={hidePassword}
                             />
+                            <TextInput
+                                label="Landmark"
+                                icon="landscape"
+                                placeholder="Landmark"
+                                onChangeText={handleChange('landmark')}
+                                onBlur={handleBlur('fullname')}
+                                value={values.landmark}
+                            />
+                            <TextInput
+                                label="Address"
+                                icon="place"
+                                placeholder="Address"
+                                onChangeText={handleChange('address')}
+                                onBlur={handleBlur('address')}
+                                value={values.address}
+                            />
                             <StyledButton onPress={handleSubmit}>
                                 <ButtonText>
-                                    Login
+                                    Sign Up
                                 </ButtonText>
                             </StyledButton>
                             <ExtraView>
-                                <ExtraText>Don't have an account? </ExtraText>
-                                <TextLinkContent>
-                                    Signup
-                                </TextLinkContent>
+                                <ExtraText>Already have an Account? </ExtraText>
+                                <TextLink onPress={() => navigation.push('Login')}>
+                                    <TextLinkContent>
+                                        Login
+                                    </TextLinkContent>
+
+                                </TextLink>
                             </ExtraView>
                         </StyledFormArea>
                     )}
@@ -76,4 +103,4 @@ const Login = () => {
 }
 
 
-export default Login;
+export default Signup;
