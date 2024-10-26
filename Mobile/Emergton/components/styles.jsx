@@ -29,13 +29,19 @@ export const InnerContainer = (props) => (
 );
 
 export const PageLogo = (props) => (
-    <Icon size={100} style={{  borderRadius: wp('100%'), borderWidth: 4, padding: 20, color: 'black' }} name={props.name} />
-);
 
+    <View style={{ borderRadius: wp('100%'), borderWidth: 5, padding: 5, color: 'black' }}>
+        <Icon size={100} style={{ padding: 20, color: 'black' }} name={props.name} />
+    </View>
+);
+export const PageLogoMui = (props) => (
+    <View style={{ backgroundColor: 'rgba(255, 0, 0, .4);', borderColor: 'rgba(255, 0, 0, 0.6);', borderRadius: wp('100%'), borderWidth: 10, padding: 20, }}>
+        <Icon size={100} style={{ backgroundColor: 'transparent', color: 'white' }} name={props.name} />
+    </View>
+);
 export const PageTitle = ({ children }) => (
     <Text style={styles.pageTitle}>{children}</Text>
 );
-
 export const SubTitle = ({ children }) => (
     <Text style={styles.subTitle}>{children}</Text>
 );
@@ -47,7 +53,22 @@ export const StyledFormArea = (props) => (
 export const StyledTextInput = (props) => (
     <TextInput style={styles.textInput} {...props} />
 );
+export const StyledText = ({ children }) => (
+    <Text style={{
+        fontSize: 20,
+        color: 'black',
+        fontWeight: 'bold',
+    }}>{children}</Text>
+);
+export const StyledName = ({ children }) => (
+    <Text style={{
+        fontSize: 50,
+        color: 'black',
+        fontWeight: 'bold',
 
+    }}>{children}</Text>
+
+);
 export const StyledInputLabel = ({ children }) => (
     <Text style={styles.inputLabel}>{children}</Text>
 );
@@ -158,7 +179,6 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginVertical: 5,
         height: 50,
-
     },
     buttonText: {
         color: primary,
@@ -187,5 +207,9 @@ const styles = StyleSheet.create({
     textLinkContent: {
         color: Colors.brand,
         fontSize: 15,
+    },
+    styledText: {
+        color: 'black',
+        fontSize: 20,
     }
 });

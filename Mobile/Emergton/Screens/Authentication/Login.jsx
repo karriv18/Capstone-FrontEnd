@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import * as Yup from 'yup';
 import { Formik } from 'formik';
+import React, { useState } from 'react';
 import {
     StyledContainer,
     InnerContainer,
@@ -15,10 +15,27 @@ import {
     TextLink,
     TextLinkContent
 } from '../../components/styles';
+import { StatusBar } from 'expo-status-bar';
 import TextInput from '@/components/UserInputs/TextInput';
 import KeyboardAvoid from '../../components/KeyboardAvoid'
+
+const SignupSchema = Yup.object().shape({
+    Email: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Enter your email'),
+    Password: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
+  });
+  
 const Login = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
+    const [email, setEmail] = useState("");
+    const [password, setPaswsword] = useState("");
+
     return (
         <KeyboardAvoid>
             <StyledContainer>
@@ -29,12 +46,15 @@ const Login = ({ navigation }) => {
                     <SubTitle>EMERGENCY APP</SubTitle>
 
                     <Formik
-                        initialValues={{ email: '', password: '' }}
+                        initialValues={{ 
+                            email: '', 
+                            password: '' }}
                         onSubmit={(values) => {
                             console.log(values)
                         }}
+                        validationSchema={SignupSchema}
                     >
-                        {({ handleChange, handleBlur, handleSubmit, values }) => (
+                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                             <StyledFormArea>
                                 <TextInput
                                     label="Email Address"
@@ -57,7 +77,7 @@ const Login = ({ navigation }) => {
                                     setHidePassword={setHidePassword}
                                     secureTextEntry={hidePassword}
                                 />
-                                <StyledButton onPress={handleSubmit}>
+                                <StyledButton onPress={() => navigation.push('Dashboard')}>
                                     <ButtonText>
                                         Login
                                     </ButtonText>
@@ -66,7 +86,7 @@ const Login = ({ navigation }) => {
                                     <ExtraText>Don't have an account? </ExtraText>
                                     <TextLink onPress={() => navigation.push('SignUp')}>
                                         <TextLinkContent>
-                                            Signup
+                                            Sign Up
                                         </TextLinkContent>
                                     </TextLink>
                                 </ExtraView>

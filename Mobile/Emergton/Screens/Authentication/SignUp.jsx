@@ -22,7 +22,6 @@ const Signup = ({ navigation }) => {
     const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
     return (
         <KeyboardAvoid>
-
             <StyledContainer>
                 <StatusBar style="dark" />
                 <InnerContainer>
@@ -95,7 +94,7 @@ const Signup = ({ navigation }) => {
                                     onBlur={handleBlur('address')}
                                     value={values.address}
                                 />
-                                <StyledButton onPress={handleSubmit}>
+                                <StyledButton onPress={() => navigation.push('Login')}>
                                     <ButtonText>
                                         Sign Up
                                     </ButtonText>

@@ -6,11 +6,10 @@ import { Colors } from '../styles'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { brand, darkLight } = Colors;
-export default function TextInput({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) {
+const TextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
   return (
     <SafeAreaView>
       <LeftIcon>
-        {/* <Octicons name={icon} size={30} color={brand} /> */}
         <Icon name={icon} size={25} color="rgb(55, 133, 205)"  />
       </LeftIcon>
       <StyledInputLabel>{label}</StyledInputLabel>
@@ -24,3 +23,4 @@ export default function TextInput({ label, icon, isPassword, hidePassword, setHi
   )
 }
 
+export default TextInput;
