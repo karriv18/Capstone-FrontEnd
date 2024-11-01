@@ -3,7 +3,9 @@ import * as Location from 'expo-location';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import axios from 'axios';
 const GeoLocation = () => {
     const [location, setLocation] = useState(null);
     const [longitude, setLongitude] = useState();
@@ -22,29 +24,43 @@ const GeoLocation = () => {
             console.log(currentLocation);
         };
         getPermission();
-        console.log(location, "25")
     }, []);
 
     useEffect(() => {
         if (location) {
-            setLongitude(location.coords.longitude);
-            setLatitude(location.coords.latitude);
-            console.log(location, "eto")
-            console.log(latitude, longitude);
+            setLongitude(location["coords"].longitude);
+            setLatitude(location["coords"].latitude);
         }
     }, [location])
 
-    const submitGeoLoc =  (loc) => {
-        const coords = loc.coords;
-        if (loc && coords) {
-            const { lat, long } = loc.coords;
-            console.log(lat)
-            setLatitude(coords.latitude);
-            setLongitude(coords.longitude);
-
-        } else {
-            console.log("Location is not available");
+    const submitGeoLoc = async (loc) => {
+        let token = await AsyncStorage.getItem('LogInToken');
+        try {
+            const response = axios.post('https://emergeton-api.onrender.com/api/v1/send-alert',
+                {
+                    data: {
+                        "alert_type": "police",
+                        "message": "string",
+                        "latitude": "37.4220936",
+                        "longitude": "-122.083922",
+                    }
+                }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            console.log(response, "res")
+        } catch (error) {
+            console.log(error)
         }
+        // const coords = loc.coords;
+        // if (loc && coords) {
+        //     const { lat, long } = loc.coords;
+        //     setLatitude(coords.latitude);
+        //     setLongitude(coords.longitude);
+        // } else {
+        //     console.log("Location is not available");
+        // }
     }
     return (
         <ScrollView>

@@ -17,6 +17,30 @@ import {
 } from '../../components/styles';
 import TextInput from '@/components/UserInputs/TextInput';
 import KeyboardAvoid from '@/components/KeyboardAvoid';
+import axios from 'axios';
+
+const handleRegister = async (navigation, data) => {
+    try {
+        const response = axios.post('https://emergeton-api.onrender.com/api/v1/auth/register/resident',
+            {
+                'first_name': 'javo',
+                'last_name': 'line',
+                'contact_number': '09999999900',
+                'address': 'malabon tity',
+                'landmark': 'kila bonbon',
+                'email': 'nigers@gmail.com',
+                'password': 'happyHalloween',
+            }, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        console.log(response)
+    } catch (error) {
+        console.log(error)
+    }
+}
 const Signup = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
@@ -94,7 +118,7 @@ const Signup = ({ navigation }) => {
                                     onBlur={handleBlur('address')}
                                     value={values.address}
                                 />
-                                <StyledButton onPress={() => navigation.push('Login')}>
+                                <StyledButton onPress={() => handleRegister(navigation)}>
                                     <ButtonText>
                                         Sign Up
                                     </ButtonText>
@@ -105,7 +129,6 @@ const Signup = ({ navigation }) => {
                                         <TextLinkContent>
                                             Login
                                         </TextLinkContent>
-
                                     </TextLink>
                                 </ExtraView>
                             </StyledFormArea>

@@ -1,6 +1,7 @@
+import axios from 'axios';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import React, { useState } from 'react';
+import React, { useState, Text } from 'react';
 import {
     StyledContainer,
     InnerContainer,
@@ -13,24 +14,64 @@ import {
     ExtraView,
     ExtraText,
     TextLink,
-    TextLinkContent
+    TextLinkContent,
+    TextError
 } from '../../components/styles';
 import { StatusBar } from 'expo-status-bar';
+import user_login from '../../src/users/user_api';
 import TextInput from '@/components/UserInputs/TextInput';
-import KeyboardAvoid from '../../components/KeyboardAvoid'
+import KeyboardAvoid from '../../components/KeyboardAvoid';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupSchema = Yup.object().shape({
-    Email: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Enter your email'),
-    Password: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    email: Yup.string().email('Invalid email').required('Required'),
-  });
-  
+    email: Yup.string()
+        .min(3, 'Too Short')
+        .max(50, 'Too long')
+        .email('Invalid Email!')
+        .required('Email is Required!'),
+    password: Yup.string()
+        .min(3, 'Too Short')
+        .max(50, 'Too long')
+        .required('Password is Required!'),
+});
+const dataToStore = async (data) => {
+    id = data.id
+    user_type = data.user_type
+    email = data.email
+    first_name = data.first_name
+    last_name = data.last_name
+    token = data.token
+}
+const handleLogin = async (navigation, data) => {
+    try {
+        let token = null
+        let email = null
+        let first_name = null
+        let id = null
+        const response = await axios.post('https://emergeton-api.onrender.com/api/v1/auth/login', {
+            // email: 'test@gmail.com',
+            email: 'nigers@gmail.com',
+            // password: 'admin123'
+            password: 'happyHalloween',
+        }, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        token = response.data.data.token
+
+        if (token) {
+            await AsyncStorage.setItem('LogInToken', token);
+            console.log(JSON.stringify(response.data.data))
+            navigation.push('Dashboard')
+        }
+    }
+    catch (error) {
+        console.log(error, "Tanga")
+    }
+}
 const Login = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [email, setEmail] = useState("");
@@ -46,38 +87,46 @@ const Login = ({ navigation }) => {
                     <SubTitle>EMERGENCY APP</SubTitle>
 
                     <Formik
-                        initialValues={{ 
-                            email: '', 
-                            password: '' }}
+                        initialValues={{
+                            email: '',
+                            password: ''
+                        }}
                         onSubmit={(values) => {
                             console.log(values)
                         }}
                         validationSchema={SignupSchema}
                     >
-                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                        {({ handleChange, handleBlur, handleSubmit, setFieldTouched, values, errors, touched }) => (
                             <StyledFormArea>
                                 <TextInput
                                     label="Email Address"
                                     icon="email"
                                     placeholder="john@example.com"
                                     onChangeText={handleChange('email')}
-                                    onBlur={handleBlur('email')}
+                                    autoCapitalize={false}
+                                    onBlur={() => setFieldTouched('email')}
                                     value={values.email}
                                     keyboardType="email-address"
                                 />
+                                {errors.email && (
+                                    <TextError>{errors.email}</TextError>
+                                )}
                                 <TextInput
                                     label="Password"
                                     icon="lock-person"
                                     placeholder="********"
                                     onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
+                                    onBlur={() => setFieldTouched('password')}
                                     value={values.password}
                                     isPassword={true}
                                     hidePassword={hidePassword}
                                     setHidePassword={setHidePassword}
                                     secureTextEntry={hidePassword}
                                 />
-                                <StyledButton onPress={() => navigation.push('Dashboard')}>
+                                {errors.password && (
+                                    <TextError>{errors.password}</TextError>
+                                )}
+                                <StyledButton onPress={() => handleLogin(navigation, SignupSchema)}>
                                     <ButtonText>
                                         Login
                                     </ButtonText>
@@ -98,6 +147,5 @@ const Login = ({ navigation }) => {
         </KeyboardAvoid>
     );
 }
-
 
 export default Login;

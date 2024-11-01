@@ -51,7 +51,7 @@ export const StyledFormArea = (props) => (
 );
 
 export const StyledTextInput = (props) => (
-    <TextInput style={styles.textInput} {...props} />
+    <TextInput autoCapitalize={false} style={styles.textInput} {...props} />
 );
 export const StyledText = ({ children }) => (
     <Text style={{
@@ -107,6 +107,11 @@ export const TextLink = ({ onPress, children }) => (
 export const TextLinkContent = ({ children }) => (
     <Text style={styles.textLinkContent}>{children}</Text>
 );
+
+export const TextError = ({ children }) => (
+    <Text style={styles.textErrorMessage}>{children}</Text>
+);
+
 // Styles
 const styles = StyleSheet.create({
     container: {
@@ -211,5 +216,9 @@ const styles = StyleSheet.create({
     styledText: {
         color: 'black',
         fontSize: 20,
-    }
+    },
+    textErrorMessage: {
+        color: 'red',
+        fontSize: 17,
+    },
 });
