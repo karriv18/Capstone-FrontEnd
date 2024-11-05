@@ -81,8 +81,8 @@ export const RightIcon = (props) => (
     <TouchableOpacity style={styles.rightIcon}>{props.children}</TouchableOpacity>
 );
 
-export const StyledButton = ({ onPress, children }) => (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+export const StyledButton = ({ onPress, children, disabled }) => (
+    <TouchableOpacity style={!disabled ? styles.button : styles.disabledButton} onPress={onPress} disabled={disabled}>
         {children}
     </TouchableOpacity>
 );
@@ -185,9 +185,21 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         height: 50,
     },
+    disabledButton: { 
+        padding: 10,
+        backgroundColor: 'rgb(0, 0, 0)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+        marginVertical: 5,
+        height: 50,
+    },
     buttonText: {
         color: primary,
         fontSize: 16,
+        display: 'flex',
+        justifyContent: 'center', 
+        alignItems: 'center'
     },
     msgBox: {
         textAlign: 'center',

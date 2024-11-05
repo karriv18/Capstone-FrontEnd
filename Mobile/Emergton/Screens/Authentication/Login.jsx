@@ -22,8 +22,9 @@ import user_login from '../../src/users/user_api';
 import TextInput from '@/components/UserInputs/TextInput';
 import KeyboardAvoid from '../../components/KeyboardAvoid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator } from 'react-native';
 
-const SignupSchema = Yup.object().shape({
+const LoginSchema = Yup.object().shape({
     email: Yup.string()
         .min(3, 'Too Short')
         .max(50, 'Too long')
@@ -34,25 +35,17 @@ const SignupSchema = Yup.object().shape({
         .max(50, 'Too long')
         .required('Password is Required!'),
 });
-const dataToStore = async (data) => {
-    id = data.id
-    user_type = data.user_type
-    email = data.email
-    first_name = data.first_name
-    last_name = data.last_name
-    token = data.token
-}
-const handleLogin = async (navigation, data) => {
+
+const handleLogin = async (navigation, values, setLoader) => {
+    console.log(values)
     try {
         let token = null
-        let email = null
-        let first_name = null
-        let id = null
+
         const response = await axios.post('https://emergeton-api.onrender.com/api/v1/auth/login', {
-            // email: 'test@gmail.com',
-            email: 'nigers@gmail.com',
-            // password: 'admin123'
-            password: 'happyHalloween',
+            email: values.email,
+            //email: 'nigers@gmail.com',
+            password: values.password,
+            //password: 'happyHalloween',
         }, {
             headers: {
                 Accept: 'application/json',
@@ -61,21 +54,22 @@ const handleLogin = async (navigation, data) => {
         })
 
         token = response.data.data.token
-
+        console.log(response)
         if (token) {
             await AsyncStorage.setItem('LogInToken', token);
-            console.log(JSON.stringify(response.data.data))
             navigation.push('Dashboard')
+            return true;
         }
     }
     catch (error) {
         console.log(error, "Tanga")
     }
+    return false;
+    
 }
 const Login = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
-    const [email, setEmail] = useState("");
-    const [password, setPaswsword] = useState("");
+    const [loader, setLoader] = useState(false);
 
     return (
         <KeyboardAvoid>
@@ -92,9 +86,11 @@ const Login = ({ navigation }) => {
                             password: ''
                         }}
                         onSubmit={(values) => {
-                            console.log(values)
+                            setLoader(true)
+                            handleLogin(navigation, values)
+                            console.log(loader)
                         }}
-                        validationSchema={SignupSchema}
+                        validationSchema={LoginSchema}
                     >
                         {({ handleChange, handleBlur, handleSubmit, setFieldTouched, values, errors, touched }) => (
                             <StyledFormArea>
@@ -103,7 +99,6 @@ const Login = ({ navigation }) => {
                                     icon="email"
                                     placeholder="john@example.com"
                                     onChangeText={handleChange('email')}
-                                    autoCapitalize={false}
                                     onBlur={() => setFieldTouched('email')}
                                     value={values.email}
                                     keyboardType="email-address"
@@ -126,9 +121,12 @@ const Login = ({ navigation }) => {
                                 {errors.password && (
                                     <TextError>{errors.password}</TextError>
                                 )}
-                                <StyledButton onPress={() => handleLogin(navigation, SignupSchema)}>
+                                <StyledButton onPress={handleSubmit} disabled={!loader}>
                                     <ButtonText>
-                                        Login
+                                        {!loader ?
+                                            <ActivityIndicator size={20} color='white' animating={!loader} />
+                                            : Login
+                                        }
                                     </ButtonText>
                                 </StyledButton>
                                 <ExtraView>
