@@ -1,94 +1,93 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import * as Location from 'expo-location';
-import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Button, Dimensions, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 
+const GeoLocation = ({navigation}) => {
+    // const [longitude, setLongitude] = useState();
+    // const [latitude, setLatitude] = useState();
 
-const GeoLocation = (navigation) => {
-    const [location, setLocation] = useState(null);
-    const [longitude, setLongitude] = useState();
-    const [latitude, setLatitude] = useState();
+    const [pin, setPin] = useState({});
+    const local = {
+        latitude: '37.78825',
+        longitude: '-122.4324'
+    }
+    const initialLocation = {
+        latitude: 37.78825,
+        longitude: -122.4324
+    }
+    const [myLocation, setMyLocation] = useState(initialLocation);
 
     useEffect(() => {
-
-        getPermission();
-        getlocation();
-    }, [location]);
-
-    const getPermission = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-
-        if (status !== 'granted') {
-            console.log("Please allow to get permission")
-            return;
-        }
-        let currentLocation = await Location.getCurrentPositionAsync({})
-        setLocation(currentLocation);
-        // console.log(currentLocation);
-    };
-    // useEffect(() => {
-    //     if (location) {
-    //         setLongitude(location["coords"].longitude);
-    //         setLatitude(location["coords"].latitude);
-    //     }
-    // }, [location])
-    const getlocation = async () => {
-        if (location) {
-            setLongitude(location["coords"].longitude);
-            setLatitude(location["coords"].latitude);
-        }
-    }
-    const submitGeoLoc = async (loc) => {
-        let token = await AsyncStorage.getItem('LogInToken');
+        setPin(local)
+    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            _getLocation();
+        }, [])
+    );
+    const _getLocation = async () => {
         try {
-            const response = await axios.post('https://emergeton-api.onrender.com/api/v1/send-alert',
-                {
-                    "alert_type": "police",
-                    "message": "string",
-                    "latitude": "37.4220936",
-                    "longitude": "-122.083922",
-                }
-                , {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                })
-            console.log(response, "res")
-            console.log(longitude, latitude, 'yes')
-            const coords = loc.coords;
-            if (loc && coords) {
-                const { lat, long } = loc.coords;
-                setLatitude(coords.latitude);
-                setLongitude(coords.longitude);
-            } else {
-                console.log("Location is not available");
-            }
-        } catch (error) {
-            console.log(error)
+            let { status } = await Location.requestForegroundPermissionsAsync()
+            console.log(Location)
+            if (status !== 'granted'){ 
+                Alert.alert('Error','Permission to access location was denied');
+                navigation.navigate('Dashboard')
+                return;
+            } 
+            let location = await Location.getCurrentPositionAsync();
+            setMyLocation(location.coords)
+        } catch (err) {
+            console.error(err)
         }
     }
-    return (
+
+    const focusOnLocation = () => { 
+
+    }
+        return (
         <ScrollView>
             <StatusBar style="auto" />
             <MapView
                 style={styles.map}
                 initialRegion={{
-                    latitude: location.latitude,
-                    longitude: location.longitude,
+                    latitude: 37.4220936,
+                    longitude: -122.083922,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
                 provider='google'
             >
-
+                {myLocation.latitude && myLocation.longitude && 
+                <Marker 
+                    coordinate={{
+                        latitude: myLocation.latitude,
+                        longitude: myLocation.longitude
+                    }}
+                    title='Default location'
+                    description='I am here'
+                />}
+               {/*  {pin.latitude && pin.longitude && 
+                <Marker 
+                    coordinate={{
+                        latitude: parseFloat(pin.latitude),
+                        longitude: parseFloat(pin.longitude)
+                    }}
+                    title='Default location'
+                    description='I am here'
+                />
+                
+                }  */}
             </MapView>
+                <View>
 
-                <Button title="Get Coordinates" onPress={() => submitGeoLoc(location)} />
+                </View>
         </ScrollView>
     )
 }
@@ -102,6 +101,9 @@ const styles = StyleSheet.create({
     map: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height
+    }, 
+    buttonContainer{ 
+        
     }
 })
 export default GeoLocation;

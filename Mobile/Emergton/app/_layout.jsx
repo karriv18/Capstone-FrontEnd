@@ -3,7 +3,7 @@ import SignUp from '../Screens/Authentication/SignUp';
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import  GeoLocation  from '../Screens/Location/GeoLocation'
+import GeoLocation from '../Screens/Location/GeoLocation'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createStackNavigator();
@@ -20,12 +20,12 @@ const RootLayout = () => {
           options={{
             title: 'Your Emergency',
             headerRight: () =>
-              <Icon name="menu" size={30} 
+              <Icon name="menu" size={30}
               />,
-            
+
             headerLeft: null
           }} />
-          <Stack.Screen name="GeoLocation" component={GeoLocation}/>
+        <Stack.Screen name="GeoLocation" component={GeoLocation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

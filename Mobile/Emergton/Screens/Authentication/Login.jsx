@@ -56,8 +56,8 @@ const handleLogin = async (navigation, values, setLoader) => {
         token = response.data.data.token
         console.log(response)
         if (token) {
-            await AsyncStorage.setItem('LogInToken', token);
             navigation.push('Dashboard')
+            await AsyncStorage.setItem('LogInToken', token);
             return true;
         }
     }
@@ -121,12 +121,9 @@ const Login = ({ navigation }) => {
                                 {errors.password && (
                                     <TextError>{errors.password}</TextError>
                                 )}
-                                <StyledButton onPress={handleSubmit} disabled={!loader}>
+                                <StyledButton onPress={handleSubmit}>
                                     <ButtonText>
-                                        {!loader ?
-                                            <ActivityIndicator size={20} color='white' animating={!loader} />
-                                            : Login
-                                        }
+                                         Login
                                     </ButtonText>
                                 </StyledButton>
                                 <ExtraView>
