@@ -37,7 +37,6 @@ const LoginSchema = Yup.object().shape({
 });
 
 const handleLogin = async (navigation, values, setLoader) => {
-    console.log(values)
     try {
         let token = null
 
@@ -54,7 +53,9 @@ const handleLogin = async (navigation, values, setLoader) => {
         })
 
         token = response.data.data.token
-        console.log(response)
+        
+
+        console.log(response.data.data)
         if (token) {
             navigation.push('Dashboard')
             await AsyncStorage.setItem('LogInToken', token);
