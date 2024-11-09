@@ -79,7 +79,7 @@ const GeoLocation = ({ navigation }) => {
 
                 const url = 'https://emergeton-api.onrender.com/api/v1/send-alert'
 
-                const response = await axios.post(url, data, headers);
+                const response = await axios.post(url, data, {headers});
 
                 console.log(response.data)
                 return await response.data
