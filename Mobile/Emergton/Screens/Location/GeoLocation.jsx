@@ -14,6 +14,8 @@ const GeoLocation = ({ navigation }) => {
     // const [latitude, setLatitude] = useState();
     const mapRef = React.useRef()
     const [pin, setPin] = useState({});
+    const [location, setLocation] = useState(null);
+
     const local = {
         latitude: '37.78825',
         longitude: '-122.4324'
@@ -29,11 +31,13 @@ const GeoLocation = ({ navigation }) => {
         setPin(local)
         focusOnLocation()
     }, [])
+
     useFocusEffect(
         useCallback(() => {
             _getLocation();
         }, [])
     );
+
     const _getLocation = async () => {
         try {
             let { status } = await Location.requestForegroundPermissionsAsync()
@@ -45,9 +49,47 @@ const GeoLocation = ({ navigation }) => {
             }
             let location = await Location.getCurrentPositionAsync();
             setMyLocation(location.coords)
+            setLocation(location.coords)
         } catch (err) {
             console.error(err)
         }
+    }
+
+    const sendLocation = async () => {
+
+        if (location) {
+            const {latitude, longitude} = location.coords;
+
+            try {
+
+                const token = await AsyncStorage.getItem('LogInToken');
+
+                const headers = {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+
+                const data = {
+                    'alert_type': 'fire',
+                    'message': 'test',
+                    'latitude': latitude,
+                    'longitude': longitude
+                }
+
+                const url = 'https://emergeton-api.onrender.com/api/v1/send-alert'
+
+                const response = await axios.post(url, data, headers);
+
+                console.log(response.data)
+                return await response.data
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+        return null;
+        
     }
 
     const focusOnLocation = () => {
