@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height
     }, 
-    buttonContainer{ 
+    buttonContainer: { 
         
     }
 })

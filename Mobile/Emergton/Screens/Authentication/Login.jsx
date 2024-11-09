@@ -70,7 +70,9 @@ const handleLogin = async (navigation, values, setLoader) => {
 const Login = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [loader, setLoader] = useState(false);
-
+    const checkPassword = (password) => { 
+        console.log(password)
+    }
     return (
         <KeyboardAvoid>
             <StyledContainer>
@@ -88,7 +90,6 @@ const Login = ({ navigation }) => {
                         onSubmit={(values) => {
                             setLoader(true)
                             handleLogin(navigation, values)
-                            console.log(loader)
                         }}
                         validationSchema={LoginSchema}
                     >
@@ -114,7 +115,7 @@ const Login = ({ navigation }) => {
                                     onBlur={() => setFieldTouched('password')}
                                     value={values.password}
                                     isPassword={true}
-                                    hidePassword={hidePassword}
+                                    hidePassword={!hidePassword}
                                     setHidePassword={setHidePassword}
                                     secureTextEntry={hidePassword}
                                 />
@@ -126,6 +127,7 @@ const Login = ({ navigation }) => {
                                          Login
                                     </ButtonText>
                                 </StyledButton>
+                                
                                 <ExtraView>
                                     <ExtraText>Don't have an account? </ExtraText>
                                     <TextLink onPress={() => navigation.push('SignUp')}>

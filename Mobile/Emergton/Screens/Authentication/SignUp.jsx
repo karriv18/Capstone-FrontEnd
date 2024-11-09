@@ -137,7 +137,7 @@ const Signup = ({ navigation }) => {
                                     onBlur={handleBlur('password')}
                                     value={values.password}
                                     isPassword={true}
-                                    hidePassword={hidePassword}
+                                    hidePassword={!hidePassword}
                                     setHidePassword={setHidePassword}
                                     secureTextEntry={hidePassword}
                                 />
@@ -152,7 +152,7 @@ const Signup = ({ navigation }) => {
                                     onBlur={handleBlur('confirmPassword')}
                                     value={values.confirmPassword}
                                     isPassword={true}
-                                    hidePassword={hideConfirmPassword}
+                                    hidePassword={!hideConfirmPassword}
                                     setHidePassword={setHideConfirmPassword}
                                     secureTextEntry={hideConfirmPassword}
                                 />
