@@ -14,8 +14,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView, { Marker } from "react-native-maps";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import { ButtonText, StyledButton } from "@/components/styles";
+import Icon from "react-native-vector-icons/FontAwesome6";
 
-const GeoLocation = ({ navigation }) => {
+const GeoLocation = ({ navigation, route }) => {
   // const [longitude, setLongitude] = useState();
   // const [latitude, setLatitude] = useState();
   const mapRef = React.useRef();
@@ -62,21 +64,20 @@ const GeoLocation = ({ navigation }) => {
   };
 
   const sendLocation = async () => {
-    console.log(myLocation.latitude);
     if (myLocation) {
       try {
         const token = await AsyncStorage.getItem("token");
-        console.log(token);
-
+        let department = String(route.params);
+        console.log(token, department);
         const headers = {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
           Accept: "application/json",
         };
-
+        console.log(typeof department)
         const data = {
-          alert_type: "police",
-          message: "tangatanga",
+          alert_type: route.params,
+          message: "health test",
           latitude: myLocation.latitude,
           longitude: myLocation.longitude,
         };
@@ -85,9 +86,9 @@ const GeoLocation = ({ navigation }) => {
 
         const response = await axios.post(url, data, { headers });
 
-        console.log(response)
+        console.log(response);
       } catch (e) {
-        console.error(e, "Boto");
+        console.error(e.response.data, "Boto");
       }
     }
 
@@ -95,6 +96,8 @@ const GeoLocation = ({ navigation }) => {
   };
 
   const focusOnLocation = () => {
+    console.log(route.params, "eto yon");
+
     if (myLocation.latitude && myLocation.longitude) {
       console.log(myLocation);
       const newRegion = {
@@ -110,7 +113,14 @@ const GeoLocation = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <View style={styles.buttonContainer}>
+        <StyledButton onPress={focusOnLocation}>
+          <ButtonText style={{ borderRadius: "100%" }}>
+            <Icon name="location-crosshairs" size={25} />
+          </ButtonText>
+        </StyledButton>
+        {/* <Button title="Submit Alert" onPress={sendLocation} /> */}
+      </View>
       <MapView
         style={styles.map}
         region={region}
@@ -128,19 +138,8 @@ const GeoLocation = ({ navigation }) => {
             description="I am here"
           />
         )}
-        {/*  {pin.latitude && pin.longitude && 
-                <Marker 
-                    coordinate={{
-                        latitude: parseFloat(pin.latitude),
-                        longitude: parseFloat(pin.longitude)
-                    }}
-                    title='Default location'
-                    description='I am here'
-                />
-                
-                }  */}
       </MapView>
-      <View style={styles.buttonContainer}>
+      <View style={styles.sendAlert}>
         {/* <Button title="Get Location" onPress={focusOnLocation} /> */}
         <Button title="Submit Alert" onPress={sendLocation} />
       </View>
@@ -161,8 +160,14 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: "absolute",
+    top: 30,
+    right: 10,
+    zIndex: 1,
+  },
+  sendAlert: {
+    position: "absolute",
     bottom: 20,
-    width: "100%",
+    width: "100",
     alignItems: "center",
   },
   markerImage: {

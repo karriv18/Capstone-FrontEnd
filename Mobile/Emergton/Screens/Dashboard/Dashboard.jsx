@@ -19,6 +19,7 @@ import {
 } from '../../components/styles';
 
 const Dashboard = ({ navigation }) => {
+
   return (
     <ScrollView>
       <StyledContainer>
@@ -26,9 +27,9 @@ const Dashboard = ({ navigation }) => {
           <PageLogoMui name="alarm-light"/>
           <PageTitle>EMERGTON</PageTitle>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <RescueButton icon="fire-truck" label="Fire District" onPress={() => navigation.push('GeoLocation')}/>
-            <RescueButton icon="local-police" label="Police" />
-            <RescueButton icon="medical-services" label="Medical" />
+            <RescueButton icon="fire-truck" label="Fire District" onPress={() => navigation.navigate('GeoLocation', "fire")}/>
+            <RescueButton icon="local-police" label="Police" onPress={() => navigation.navigate('GeoLocation', "police")}/>
+            <RescueButton icon="medical-services" label="Medical" onPress={() => navigation.navigate('GeoLocation', "health")} />
           </View>
         </InnerContainer>
       </StyledContainer>
