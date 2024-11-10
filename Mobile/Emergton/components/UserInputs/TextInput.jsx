@@ -23,7 +23,7 @@ const TextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...
       <StyledTextInput {...props} />
       {isPassword && (
         <TouchableOpacity onPress={togglePasswordVisibility} style={styles.rightIcon}>
-          <Ionicons name={hidePassword ? 'eye-off' : 'eye'} size={25} color={darkLight} />
+          <Ionicons name={hidePassword ? 'eye' : 'eye-off'} size={25} color={darkLight} />
         </TouchableOpacity>
         // <StyledButton onPress={() => { setHidePassword(!hidePassword); checkPassword(hidePassword) }}>
         //   <ButtonText>Hide password</ButtonText>
