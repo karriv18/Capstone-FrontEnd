@@ -69,7 +69,7 @@ const GeoLocation = ({ navigation }) => {
         console.log(token);
 
         const headers = {
-          Authorization: `Bearer 682f00f023e062f648695753e63c7b7fc03c2aab`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
           Accept: "application/json",
         };
