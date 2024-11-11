@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import React, { useState, Text } from "react";
+import React, { useState, Text, useEffect } from "react";
 import {
   StyledContainer,
   InnerContainer,
@@ -22,7 +22,7 @@ import user_login from "../../src/users/user_api";
 import TextInput from "@/components/UserInputs/TextInput";
 import KeyboardAvoid from "../../components/KeyboardAvoid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Alert } from "react-native";
 import { dataStore, getData } from "../../src/storeData";
 
 const LoginSchema = Yup.object().shape({
@@ -65,24 +65,40 @@ const handleLogin = async (navigation, values, setLoader) => {
       dataStore(data);
       return true;
     }
+    console.log(response)
   } catch (error) {
-    console.log(error);
+    // Alert.alert("Error!", error)
+    if (error.status === 404) {
+      Alert.alert("Error", "Wrong username or password!");
+    }
   }
   return false;
 };
 const isLogin = async (navigation) => {
   try {
-    let token = await AsyncStorage.getItem('token'); 
+    let token = await AsyncStorage.getItem('token');
 
-    if (token !== null){ 
-        navigation.push('Dashboard'); 
-        return;
+    if (token !== null) {
+      navigation.push('Dashboard');
+      return;
     }
- } catch (error) {
+  } catch (error) {
     console.error(error);
   }
 };
 const Login = ({ navigation }) => {
+
+  useEffect(() => {
+    getToken()
+  }, [])
+
+
+  const getToken = async () => {
+    let token = await AsyncStorage.getItem('token');
+    if (token != null) {
+      navigation.push('Dashboard')
+    }
+  }
   const [hidePassword, setHidePassword] = useState(true);
   const [loader, setLoader] = useState(false);
 
