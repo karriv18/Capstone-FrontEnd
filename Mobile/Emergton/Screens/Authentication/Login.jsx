@@ -45,9 +45,7 @@ const handleLogin = async (navigation, values, setLoader) => {
       "https://emergeton-api.onrender.com/api/v1/auth/login",
       {
         email: values.email,
-        //email: 'nigers@gmail.com',
         password: values.password,
-        //password: 'happyHalloween',
       },
       {
         headers: {
@@ -67,29 +65,23 @@ const handleLogin = async (navigation, values, setLoader) => {
     }
     console.log(response)
   } catch (error) {
-    // Alert.alert("Error!", error)
-    if (error.status === 404) {
-      Alert.alert("Error", "Wrong username or password!");
-    }
+      Alert.alert("Error!", error.response.data.data)
   }
   return false;
 };
-const isLogin = async (navigation) => {
-  try {
-    let token = await AsyncStorage.getItem('token');
 
-    if (token !== null) {
-      navigation.push('Dashboard');
-      return;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
 const Login = ({ navigation }) => {
 
   useEffect(() => {
-    getToken()
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        navigation.push("Dashboard");
+        return;
+      }
+    };
+
+    checkToken();
   }, [])
 
 
@@ -97,7 +89,9 @@ const Login = ({ navigation }) => {
     let token = await AsyncStorage.getItem('token');
     if (token != null) {
       navigation.push('Dashboard')
+      return;
     }
+    return
   }
   const [hidePassword, setHidePassword] = useState(true);
   const [loader, setLoader] = useState(false);
@@ -109,7 +103,7 @@ const Login = ({ navigation }) => {
         <StatusBar style="dark" />
         <InnerContainer>
           <PageLogo name="phone-in-talk" />
-          <PageTitle>EMERGTON</PageTitle>
+          <PageTitle>EMERGETON</PageTitle>
           <SubTitle>EMERGENCY APP</SubTitle>
 
           <Formik
@@ -119,6 +113,7 @@ const Login = ({ navigation }) => {
             }}
             onSubmit={(values) => {
               setLoader(true);
+              console.log("Tanga")
               handleLogin(navigation, values);
             }}
             validationSchema={LoginSchema}
