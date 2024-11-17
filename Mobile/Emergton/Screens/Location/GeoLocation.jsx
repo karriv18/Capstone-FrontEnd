@@ -103,6 +103,9 @@ const GeoLocation = ({ navigation, route }) => {
             } catch (e) {
                 console.error(e.response.data);
             }
+            finally{
+                setShowMessage(false)
+            }
         }
 
     };
@@ -134,7 +137,8 @@ const GeoLocation = ({ navigation, route }) => {
                                 <Formik
                                     initialValues={{ message: '' }}
                                     onSubmit={(values) => {
-                                       sendLocation(navigation, values);
+                                        console.log(route.params)
+                                        sendLocation(navigation, values);
                                     }}
                                     validationSchema={MessageSchema}
                                 >
@@ -302,7 +306,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderColor: '#000',
         alignItems: 'center'
-    }
+    }, 
+    closeButtonText: {
+        color: '#000',
+        fontSize: 16,
+    },
 });
 
 export default GeoLocation;

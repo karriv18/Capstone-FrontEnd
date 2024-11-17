@@ -20,9 +20,9 @@ export const getData = async () => {
 
 export const removeData = async () => { 
     AsyncStorage.removeItem('token')
-    AsyncStorage.getItem("email");
-    AsyncStorage.getItem("firstName");
-    AsyncStorage.getItem("lastName");
-    AsyncStorage.getItem("id");
-    AsyncStorage.getItem("landmark");
+    AsyncStorage.removeItem("email");
+    AsyncStorage.removeItem("firstName");
+    AsyncStorage.removeItem("lastName");
+    AsyncStorage.removeItem("id");
+    AsyncStorage.removeItem("landmark");
 }

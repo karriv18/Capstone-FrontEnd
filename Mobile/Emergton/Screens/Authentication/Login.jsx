@@ -74,8 +74,8 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = await AsyncStorage.getItem("token");
-      if (token !== null) {
+      const token = AsyncStorage.getItem("token");
+      if (token._k !== null) {
         navigation.push("Dashboard");
         return;
       }
@@ -145,7 +145,7 @@ const Login = ({ navigation }) => {
                 {errors.password && <TextError>{errors.password}</TextError>}
                 <StyledButton onPress={handleSubmit} disabled={loader}>
                   {loader ? (
-                    <ActivityIndicator size="small" color="#fff" />
+                    <ActivityIndicator size="small"  />
                   ) : (
                     <ButtonText>Login</ButtonText>
                   )}
