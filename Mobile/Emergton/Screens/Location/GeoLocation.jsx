@@ -24,11 +24,11 @@ import TextInput from "@/components/UserInputs/TextInput";
 import * as Yup from "yup";
 
 
-const MessageSchema = Yup.object().shape({ 
+const MessageSchema = Yup.object().shape({
     message: Yup.string()
-    .min(3, "Too Short")
-    .max(50, "Too long")
-    .required("Message is Required!"),
+        .min(3, "Too Short")
+        .max(50, "Too long")
+        .required("Message is Required!"),
 })
 const GeoLocation = ({ navigation, route }) => {
 
@@ -80,17 +80,14 @@ const GeoLocation = ({ navigation, route }) => {
         if (myLocation) {
             try {
                 const token = await AsyncStorage.getItem("token");
-                let department = String(route.params);
-                console.log(token, department);
                 const headers = {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                     Accept: "application/json",
                 };
-                console.log(typeof department)
                 const data = {
                     alert_type: route.params,
-                    message: values.message, 
+                    message: values.message,
                     latitude: myLocation.latitude,
                     longitude: myLocation.longitude,
                 };
@@ -100,15 +97,14 @@ const GeoLocation = ({ navigation, route }) => {
                 const response = await axios.post(url, data, { headers });
 
                 console.log(response);
-                
+
                 navigation.push("Dashboard");
-                
+
             } catch (e) {
                 console.error(e.response.data);
             }
         }
 
-        return null;
     };
 
     const focusOnLocation = () => {
@@ -138,7 +134,7 @@ const GeoLocation = ({ navigation, route }) => {
                                 <Formik
                                     initialValues={{ message: '' }}
                                     onSubmit={(values) => {
-                                        sendLocation(values);
+                                       sendLocation(navigation, values);
                                     }}
                                     validationSchema={MessageSchema}
                                 >
@@ -163,9 +159,9 @@ const GeoLocation = ({ navigation, route }) => {
                                     )}
                                 </Formik>
                             </View>
-                                <TouchableOpacity style={styles.closeButton} onPress={() => setShowMessage(false)}>
-                                    <Text style={styles.closeButtonText}>Close</Text>
-                                </TouchableOpacity>
+                            <TouchableOpacity style={styles.closeButton} onPress={() => setShowMessage(false)}>
+                                <Text style={styles.closeButtonText}>Close</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>

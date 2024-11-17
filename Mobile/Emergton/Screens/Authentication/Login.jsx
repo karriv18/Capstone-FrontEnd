@@ -58,14 +58,14 @@ const handleLogin = async (navigation, values, setLoader) => {
     token = response.data.data.token;
     let data = response.data.data;
     if (token) {
-      console.log(token)
       navigation.push("Dashboard");
       dataStore(data);
       return true;
     }
-    console.log(response)
   } catch (error) {
-      Alert.alert("Error!", error.response.data.data)
+    Alert.alert("Error!", error.response.data.data)
+  } finally{ 
+    setLoader(false)
   }
   return false;
 };
@@ -75,7 +75,7 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
-      if (token) {
+      if (token !== null) {
         navigation.push("Dashboard");
         return;
       }
@@ -85,14 +85,7 @@ const Login = ({ navigation }) => {
   }, [])
 
 
-  const getToken = async () => {
-    let token = await AsyncStorage.getItem('token');
-    if (token != null) {
-      navigation.push('Dashboard')
-      return;
-    }
-    return
-  }
+
   const [hidePassword, setHidePassword] = useState(true);
   const [loader, setLoader] = useState(false);
 
@@ -113,8 +106,7 @@ const Login = ({ navigation }) => {
             }}
             onSubmit={(values) => {
               setLoader(true);
-              console.log("Tanga")
-              handleLogin(navigation, values);
+              handleLogin(navigation, values, setLoader);
             }}
             validationSchema={LoginSchema}
           >
@@ -151,8 +143,12 @@ const Login = ({ navigation }) => {
                   secureTextEntry={hidePassword}
                 />
                 {errors.password && <TextError>{errors.password}</TextError>}
-                <StyledButton onPress={handleSubmit}>
-                  <ButtonText>Login</ButtonText>
+                <StyledButton onPress={handleSubmit} disabled={loader}>
+                  {loader ? (
+                    <ActivityIndicator size="small" color="#fff" />
+                  ) : (
+                    <ButtonText>Login</ButtonText>
+                  )}
                 </StyledButton>
 
                 <ExtraView>
