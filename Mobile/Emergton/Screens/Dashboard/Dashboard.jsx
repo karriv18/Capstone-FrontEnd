@@ -52,7 +52,7 @@ const Dashboard = ({ navigation }) => {
             <RescueButton icon="fire-truck" label="Fire District" onPress={() => navigation.navigate('GeoLocation', "fire")} />
             <RescueButton icon="local-police" label="Police" onPress={() => navigation.navigate('GeoLocation', "police")} />
             <RescueButton icon="medical-services" label="Medical" onPress={() => navigation.navigate('GeoLocation', "health")} />
-            <RescueButton icon="logout" label="Logout" onPress={() => /* navigation.navigate('GeoLocation', "health") */ logout(navigation)} />
+            <RescueButton icon="logout" label="Logout" onPress={() => logout(navigation)} />
           </View>
         </InnerContainer>
           <TouchableOpacity style={styles.alert_container} onPress={() => navigation.navigate("ListEmergency")}>
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     alignContent: 'center', 
     justifyContent: 'center', 
     backgroundColor: 'black', 
+    borderRadius: 20,
     padding: 10
   },
 })

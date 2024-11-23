@@ -96,8 +96,6 @@ const GeoLocation = ({ navigation, route }) => {
 
                 const response = await axios.post(url, data, { headers });
 
-                console.log(response);
-
                 navigation.push("Dashboard");
 
             } catch (e) {
