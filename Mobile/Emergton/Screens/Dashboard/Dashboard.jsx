@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, Button, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 import RescueButton from '../../components/Buttons/RescueButton'
 
@@ -19,6 +19,8 @@ import {
 } from '../../components/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dataStore, getData, removeData } from "../../src/storeData";
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Dashboard = ({ navigation }) => {
   useEffect(() => {
@@ -30,7 +32,7 @@ const Dashboard = ({ navigation }) => {
   }, [])
   let logout = async (navigation) => {
     try {
-      console.log(AsyncStorage.getItem("token"))
+      console.log(await AsyncStorage.getItem("token"))
       navigation.push("Login")
     } catch (error) {
       console.log(error)
@@ -38,14 +40,14 @@ const Dashboard = ({ navigation }) => {
   }
 
   let getRequest = () => {
-    
+
   }
   return (
     <ScrollView>
       <StyledContainer>
         <InnerContainer>
           <PageLogoMui name="alarm-light" />
-          <PageTitle>EMERGETON</PageTitle>
+          <PageTitle>EMERGTON</PageTitle>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <RescueButton icon="fire-truck" label="Fire District" onPress={() => navigation.navigate('GeoLocation', "fire")} />
             <RescueButton icon="local-police" label="Police" onPress={() => navigation.navigate('GeoLocation', "police")} />
@@ -53,9 +55,23 @@ const Dashboard = ({ navigation }) => {
             <RescueButton icon="logout" label="Logout" onPress={() => /* navigation.navigate('GeoLocation', "health") */ logout(navigation)} />
           </View>
         </InnerContainer>
+          <TouchableOpacity style={styles.alert_container} onPress={() => navigation.navigate("ListEmergency")}>
+            <Text style={{color: 'white'}}><Icon icon="clipboard-list-outline" ize={75} style={{ color: 'rgba(0, 0, 0, 0.8)' }} /> LIST OF ALERTS</Text>
+          </TouchableOpacity>
       </StyledContainer>
     </ScrollView>
   )
 }
 
+
+const styles = StyleSheet.create({
+  alert_container: {
+    display: 'flex', 
+    flexDirection: 'row',
+    alignContent: 'center', 
+    justifyContent: 'center', 
+    backgroundColor: 'black', 
+    padding: 10
+  },
+})
 export default Dashboard;

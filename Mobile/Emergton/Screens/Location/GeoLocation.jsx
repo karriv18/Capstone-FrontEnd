@@ -29,7 +29,7 @@ const MessageSchema = Yup.object().shape({
         .min(3, "Too Short")
         .max(50, "Too long")
         .required("Message is Required!"),
-})
+});
 const GeoLocation = ({ navigation, route }) => {
 
     const mapRef = React.useRef();
@@ -103,7 +103,7 @@ const GeoLocation = ({ navigation, route }) => {
             } catch (e) {
                 console.error(e.response.data);
             }
-            finally{
+            finally {
                 setShowMessage(false)
             }
         }
@@ -184,7 +184,6 @@ const GeoLocation = ({ navigation, route }) => {
                 region={region}
                 onRegionChangeComplete={setRegion}
                 ref={mapRef}
-                provider="google"
             >
                 {myLocation.latitude && myLocation.longitude && (
                     <Marker
@@ -306,7 +305,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderColor: '#000',
         alignItems: 'center'
-    }, 
+    },
     closeButtonText: {
         color: '#000',
         fontSize: 16,

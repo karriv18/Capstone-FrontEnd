@@ -8,18 +8,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { TouchableOpacity } from "react-native";
 const Stack = createStackNavigator();
 import { removeData } from "@/src/storeData";
-
+import ListEmergency from '../Screens/Emergency/ListEmergency';
 
 
 const RootLayout = () => {
-  let remove = async () => { 
-    try{ 
-      await removeData();
-    } catch(error){ 
-      console.log(error);
-    }
 
-  }
 
   return (
     <NavigationContainer independent={true}>
@@ -40,8 +33,8 @@ const RootLayout = () => {
           options={{
             title: "Your Emergency",
             headerRight: () => (
-              <TouchableOpacity onPress={() => remove()}>
-                <Icon name="logout" size={30} />
+              <TouchableOpacity >
+                <Icon name="clipboard-list-outline" size={30} />
               </TouchableOpacity>
             ),
 
@@ -53,6 +46,13 @@ const RootLayout = () => {
           component={GeoLocation}
           options={{
             title: "Your Location",
+          }}
+        />
+        <Stack.Screen
+          name="ListEmergency"
+          component={ListEmergency}
+          options={{
+            title: "List of Emergency"
           }}
         />
       </Stack.Navigator>

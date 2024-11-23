@@ -96,7 +96,7 @@ const Login = ({ navigation }) => {
         <StatusBar style="dark" />
         <InnerContainer>
           <PageLogo name="phone-in-talk" />
-          <PageTitle>EMERGETON</PageTitle>
+          <PageTitle>EMERGTON</PageTitle>
           <SubTitle>EMERGENCY APP</SubTitle>
 
           <Formik

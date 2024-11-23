@@ -2,7 +2,6 @@ import React from 'react'
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { StyledContainer } from '../styles';
 
 const RescueButton = ({ label, icon, iconDpt, department, onPress,...props }) => {
     return (
