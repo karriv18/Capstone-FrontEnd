@@ -57,15 +57,25 @@ const handleLogin = async (navigation, values, setLoader) => {
 
     token = response.data.data.token;
     let data = response.data.data;
-    if (token) {
+
+    if (token && response.status == 200) {
+
+      AsyncStorage.setItem("KeepLoggedIn", JSON.stringify(true));
+
       navigation.push("Dashboard");
+
       dataStore(data);
+
       return true;
     }
   } catch (error) {
-    Alert.alert("Error!", error.response.data.data)
-  } finally{ 
+
+    Alert.alert("Error!", error.response.data.message);
+
+  } finally {
+
     setLoader(false)
+
   }
   return false;
 };
@@ -80,10 +90,8 @@ const Login = ({ navigation }) => {
         return;
       }
     };
-
     checkToken();
   }, [])
-
 
 
   const [hidePassword, setHidePassword] = useState(true);
@@ -92,7 +100,6 @@ const Login = ({ navigation }) => {
   return (
     <KeyboardAvoid>
       <StyledContainer>
-        {/* {isLogin(navigation)} */}
         <StatusBar style="dark" />
         <InnerContainer>
           <PageLogo name="phone-in-talk" />
@@ -145,7 +152,7 @@ const Login = ({ navigation }) => {
                 {errors.password && <TextError>{errors.password}</TextError>}
                 <StyledButton onPress={handleSubmit} disabled={loader}>
                   {loader ? (
-                    <ActivityIndicator size="small"  />
+                    <ActivityIndicator size="small" />
                   ) : (
                     <ButtonText>Login</ButtonText>
                   )}

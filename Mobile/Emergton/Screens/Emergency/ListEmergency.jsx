@@ -42,7 +42,7 @@ const ListEmergency = () => {
 
                     let alertBackground = ' ';
                     let iconBg = '';
-                    console.log(alert)
+                    
                     if (alert.alert_type == 'police') {
                         alertBackground = 'rgb(55, 133, 205)'
                         iconBg = 'rgb(29, 78, 216)'

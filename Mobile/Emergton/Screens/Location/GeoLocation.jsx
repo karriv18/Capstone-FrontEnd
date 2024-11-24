@@ -8,10 +8,11 @@ import {
     Dimensions,
     Alert,
     TouchableOpacity,
-    Modal
+    Modal,
+    ActivityIndicator
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import {
@@ -31,6 +32,8 @@ const MessageSchema = Yup.object().shape({
         .required("Message is Required!"),
 });
 const GeoLocation = ({ navigation, route }) => {
+    const [loader, setLoader] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(null);
 
     const mapRef = React.useRef();
     const [pin, setPin] = useState({});
@@ -59,20 +62,44 @@ const GeoLocation = ({ navigation, route }) => {
         }, [])
     );
 
+    /*     const _getLocation = async () => {
+            
+            try {
+                let perm = await AsyncStorage.getItem("Permission")
+                console.log(perm, "Perm")
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== "granted") {
+                    Alert.alert("Error", "Permission to access location was denied");
+                    navigation.navigate("Dashboard");
+                    return;
+                }
+                let location = await Location.getCurrentPositionAsync();
+                setMyLocation(location.coords);
+                setLocation(location.coords);
+            } catch (err) {
+                console.error(err);
+            }
+        }; */
     const _getLocation = async () => {
         try {
+            // Request foreground permission
             let { status } = await Location.requestForegroundPermissionsAsync();
-            console.log(Location);
             if (status !== "granted") {
-                Alert.alert("Error", "Permission to access location was denied");
-                navigation.navigate("Dashboard");
+                setErrorMsg("Permission to access location was denied");
                 return;
             }
+
+            // Get current location
             let location = await Location.getCurrentPositionAsync();
             setMyLocation(location.coords);
             setLocation(location.coords);
+
+            // Request background permission if necessary
+            let backPerm = await Location.requestBackgroundPermissionsAsync();
+            console.log(backPerm);
         } catch (err) {
             console.error(err);
+            setErrorMsg("Failed to get location");
         }
     };
 
@@ -136,6 +163,7 @@ const GeoLocation = ({ navigation, route }) => {
                                     initialValues={{ message: '' }}
                                     onSubmit={(values) => {
                                         console.log(route.params)
+                                        setLoader(true);
                                         sendLocation(navigation, values);
                                     }}
                                     validationSchema={MessageSchema}
@@ -154,8 +182,12 @@ const GeoLocation = ({ navigation, route }) => {
                                             {errors.message && touched.message && (
                                                 <TextError>{errors.message}</TextError>
                                             )}
-                                            <StyledButton onPress={handleSubmit}>
-                                                <ButtonText>Send</ButtonText>
+                                            <StyledButton onPress={handleSubmit} disabled={loader}>
+                                                {loader ?
+                                                    <ActivityIndicator size="small" />
+                                                    :
+                                                    <ButtonText>Send</ButtonText>
+                                                }
                                             </StyledButton>
                                         </StyledFormArea>
                                     )}
@@ -182,6 +214,7 @@ const GeoLocation = ({ navigation, route }) => {
                 region={region}
                 onRegionChangeComplete={setRegion}
                 ref={mapRef}
+                provider={PROVIDER_GOOGLE}
             >
                 {myLocation.latitude && myLocation.longitude && (
                     <Marker
@@ -195,17 +228,11 @@ const GeoLocation = ({ navigation, route }) => {
                 )}
             </MapView>
             <View style={styles.sendAlert}>
-                {/* <Button title="Get Location" onPress={focusOnLocation} /> */}
-                {/* <Button title="Submit Alert" onPress={sendLocation} /> */}
-                {/* <TouchableOpacity onPress={() => setShowMessage(true)} style={styles.sendAlertBtn}>
-                    <Text>Submit Alert</Text>
-                </TouchableOpacity> */}
                 <StyledButton onPress={() => setShowMessage(true)}>
                     <ButtonText style={{ borderRadius: "100%" }}>
                         Submit Alert
                     </ButtonText>
                 </StyledButton>
-                {/* <Button style={styles.sendAlertBtn} title="Submit Alert" onPress={() => setShowMessage(true)} /> */}
             </View>
         </View>
     );

@@ -99,7 +99,6 @@ const Signup = ({ navigation }) => {
                             contact_number: '',
                             email: '',
                             password: '',
-                            confirmPassword: '',
                             address: '',
                             landmark: ''
                         }}
@@ -181,21 +180,7 @@ const Signup = ({ navigation }) => {
                                 {errors.password && touched.password && (
                                     <TextError>{errors.password}</TextError>
                                 )}
-                                <TextInput
-                                    label="Confirm password"
-                                    icon="lock-person"
-                                    placeholder="********"
-                                    onChangeText={handleChange('confirmPassword')}
-                                    onBlur={handleBlur('confirmPassword')}
-                                    value={values.confirmPassword}
-                                    isPassword={true}
-                                    hidePassword={!hideConfirmPassword}
-                                    setHidePassword={setHideConfirmPassword}
-                                    secureTextEntry={hideConfirmPassword}
-                                />
-                                {errors.confirmPassword && touched.confirmPassword && (
-                                    <TextError>{errors.confirmPassword}</TextError>
-                                )}
+
                                 <TextInput
                                     label="Landmark"
                                     icon="landscape"
