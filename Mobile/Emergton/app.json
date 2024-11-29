@@ -20,10 +20,10 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.karriv.Emergton", 
-      "config": { 
-        "googleMaps": { 
-          "apiKey": "API_KEY"
+      "package": "com.karriv.Emergton",
+      "config": {
+        "googleMaps": {
+          "apiKey": "{ANDROID_PHONE}"
         }
       }
     },
@@ -43,7 +43,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": ""
+        "projectId": "442cef9a-102e-4a84-ae78-a26bcaa02f43"
       }
     }
   }

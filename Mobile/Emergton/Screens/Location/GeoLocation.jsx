@@ -129,7 +129,8 @@ const GeoLocation = ({ navigation, route }) => {
                 console.error(e.response.data);
             }
             finally {
-                setShowMessage(false)
+                setShowMessage(false);
+                setLoader(false);
             }
         }
 

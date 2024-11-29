@@ -20,31 +20,7 @@ import TextInput from '@/components/UserInputs/TextInput';
 import KeyboardAvoid from '@/components/KeyboardAvoid';
 import axios from 'axios';
 import * as Yup from 'yup';
-
-// Update handleRegister to log data and potential errors
-const handleRegister = async (navigation, data) => {
-    console.log("Form Data: ", data);
-    try {
-        const response = await axios.post('https://emergeton-api.onrender.com/api/v1/auth/register/resident', {
-            first_name: data.first_name,
-            last_name: data.last_name,
-            contact_number: data.contact_number,
-            address: data.address,
-            landmark: data.landmark,
-            email: data.email,
-            password: data.password,
-        }, {
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            }
-        });
-        console.log(response.data);
-        navigation.push('Login')
-    } catch (error) {
-        console.error("Registration Error: ", error);
-    }
-};
+import { ActivityIndicator } from "react-native"
 
 const SignUpSchema = Yup.object().shape({
     email: Yup.string()
@@ -83,6 +59,33 @@ const SignUpSchema = Yup.object().shape({
 const Signup = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
+    const [loader, setLoader] = useState(false);
+
+    // Update handleRegister to log data and potential errors
+    const handleRegister = async (navigation, data) => {
+        console.log("Form Data: ", data);
+        try {
+            const response = await axios.post('https://emergeton-api.onrender.com/api/v1/auth/register/resident', {
+                first_name: data.first_name,
+                last_name: data.last_name,
+                contact_number: data.contact_number,
+                address: data.address,
+                landmark: data.landmark,
+                email: data.email,
+                password: data.password,
+            }, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            });
+            navigation.push('Login')
+        } catch (error) {
+            console.error("Registration Error: ", error);
+        } finally {
+            setLoader(false)
+        }
+    };
 
     return (
         <KeyboardAvoid>
@@ -103,7 +106,7 @@ const Signup = ({ navigation }) => {
                             landmark: ''
                         }}
                         onSubmit={(values) => {
-                            // setLoader(true);
+                            setLoader(true);
                             handleRegister(navigation, values);
                         }}
                         validationSchema={SignUpSchema}
@@ -201,7 +204,11 @@ const Signup = ({ navigation }) => {
                                     <TextError>{errors.address}</TextError>
                                 )}
                                 <StyledButton onPress={handleSubmit}>
-                                    <ButtonText>Sign up</ButtonText>
+                                    {loader ? (<ActivityIndicator size="small" />) :
+                                        (
+                                            <ButtonText>Sign up</ButtonText>
+                                        )
+                                    }
                                 </StyledButton>
                                 <ExtraView>
                                     <ExtraText>Already have an Account? </ExtraText>
